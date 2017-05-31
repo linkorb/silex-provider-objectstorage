@@ -13,22 +13,26 @@ class ObjectStorageServiceProvider implements ServiceProviderInterface
     public function register(Container $app)
     {
         $app['object_storage.adapter'] = function ($app) {
-            $configPath = $app['storage.config_path'];
-            $config = $app['config.loader.ini']->load($configPath);
+            if (!isset($app['object_storage.config'])) {
+                throw new RuntimeException(
+                    'Unable to configure Storage Adapter: missing "object_storage.config" configuration.'
+                );
+            }
+            $config = $app['object_storage.config'];
             if (!array_key_exists('general', $config)) {
                 throw new RuntimeException(
-                    "Unable to configure Storage Adapter: missing \"general\" section from \"{$configPath}\"."
+                    'Unable to configure Storage Adapter: missing "general" configuration section.'
                 );
             }
             if (!array_key_exists('adapter', $config['general'])) {
                 throw new RuntimeException(
-                    "Unable to configure Storage Adapter: missing \"adapter\" key from \"{$configPath}\"."
+                    'Unable to configure Storage Adapter: missing "adapter" key "general" configuration section.'
                 );
             }
             $adapter = $config['general']['adapter'];
             if (!array_key_exists($adapter, $config)) {
                 throw new RuntimeException(
-                    "Unable to configure Storage Adapter: missing \"{$adapter}\" section from \"{$configPath}\"."
+                    "Unable to configure Storage Adapter: missing \"{$adapter}\" configuration section."
                 );
             }
             $class = '\\ObjectStorage\\Adapter\\' . ucfirst($adapter) . 'Adapter';

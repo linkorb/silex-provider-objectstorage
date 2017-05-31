@@ -10,18 +10,16 @@ Install using composer:-
 
     $ composer require linkorb/silex-provider-objectstorage
 
-Then register the provider:-
+Then, [configure the storage service][objectstorage.conf] and register the
+provider, passing the configuration values to the `register` method:-
 
     // app/app.php
     use LinkORB\ObjectStorage\Provider\ObjectStorageServiceProvider;
     ...
     $app->register(
         new ObjectStorageServiceProvider,
-        ['storage.config_path' => 'path/to/config/storage.ini']
+        ['object_storage.config' => [...]]
     );
-
-Finally, [configure the storage service][objectstorage.conf].
-
 
 ## Usage
 

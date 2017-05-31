@@ -12,7 +12,6 @@
     ],
     "require": {
         "linkorb/objectstorage": "^2.3",
-        "linkorb/silex-provider-configloader": "^1.0",
         "pimple/pimple": "^3.0"
     },
     "autoload": {
